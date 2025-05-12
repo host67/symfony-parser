@@ -1,0 +1,24 @@
+###> symfony/framework-bundle ###
+/htdocs/.env.local
+/htdocs/.env.local.php
+/htdocs/.env.*.local
+/htdocs/public/bundles/
+/htdocs/var/
+/htdocs/vendor
+/htdocs/migrations
+###< symfony/framework-bundle ###
+
+.env
+
+#docker volumes
+/esdata
+/redis-cache
+/docker/pgsql/db
+/docker/postgres-data
+/docker/ssl/*.crt
+/docker/ssl/*.key
+
+#other
+.idea
+.phpunit.result.cache
+htdocs/.phpunit.result.cache

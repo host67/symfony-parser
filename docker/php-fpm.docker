@@ -1,0 +1,69 @@
+FROM php:8.2-fpm
+
+FROM php:8.2-fpm
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # Basic tools
+    build-essential \
+    git \
+    zip \
+    unzip \
+    # PHP extension dependencies
+    libonig-dev \
+    libpq-dev \
+    libzip-dev \
+    libicu-dev \
+    libxml2-dev \
+    libgd-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libfreetype6-dev \
+    libmemcached-dev \
+    libmagickwand-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configure and install core PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+    bcmath \
+    intl \
+    mbstring \
+    opcache \
+    pdo \
+    pdo_pgsql \
+    pgsql \
+    soap \
+    zip \
+    gd
+
+# Install PECL extensions
+RUN pecl install imagick memcached \
+    && docker-php-ext-enable imagick memcached
+
+# 4. Configure Git
+RUN git config --global --add safe.directory /app
+
+# 5. Verify installation
+RUN php -m | grep -E 'mbstring|pgsql|gd' && \
+    echo "Extensions installed successfully"
+
+# Configure Git safe directory
+RUN git config --global --add safe.directory /app
+
+# composer
+RUN curl -sS https://getcomposer.org/installer | php \
+&& mv composer.phar /usr/local/bin/composer
+
+# добавляем конфиги
+COPY ./php/default.ini /usr/local/etc/php/conf.d/default.ini
+#COPY ./php/default.ini /etc/php/8.2/fpm/php.ini
+
+
+
+RUN usermod -u 1000 www-data
+
+WORKDIR "/app/htdocs/public"
+
+EXPOSE 9000
