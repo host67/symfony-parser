@@ -13,4 +13,4 @@ try {
 } catch (PDOException $e) {
     die("Ошибка подключения: " . $e->getMessage());
 }
-echo 'hello world';
+echo 'Hello world';
