@@ -1,0 +1,26 @@
+# Git
+.git/
+.gitignore
+
+# Symfony
+/.env
+/vendor/
+/var/
+/node_modules/
+/public/bundles/
+
+# Docker
+docker-compose.override.yml
+*.back
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Логи и кеш
+*.log
+*.cache
+
+# Тестовые данные
+/tests/_output/
